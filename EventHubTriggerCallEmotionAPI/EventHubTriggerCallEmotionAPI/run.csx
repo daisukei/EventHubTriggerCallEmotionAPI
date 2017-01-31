@@ -79,9 +79,6 @@ public static async Task<UploadedPhotoStatus> CallCognitiveAPI(string subscripti
             uploadedStatus.Sadness = sadnessTotal / numOfPerson;
             uploadedStatus.Suprise = supriseTotal / numOfPerson;
         }
-        else
-        {
-        }
 
         return uploadedStatus;
 
