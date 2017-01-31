@@ -24,19 +24,18 @@ public static void Run(string myEventHubMessage, TraceWriter log)
     {
         // call Emotion API
         UploadedPhotoStatus result = CallCognitiveAPI(subscriptionKey, input.Url).Result;
-        Console.WriteLine(result.Anger);
     }
 }
 
-
-public static List<SensorModel> ParseJson(string s)
+// Deserialize  myEventHubMessage
+public static List<SensorModel> ParseJson(string jsondata)
 {
-    var jsondata = File.ReadAllText("./data.json");
     var list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SensorModel>>(jsondata);
 
     return list;
 }
 
+// Call Cognitive Services API
 public static async Task<UploadedPhotoStatus> CallCognitiveAPI(string subscriptionKey, string bloburi)
 {
     CloudBlockBlob myBlob = new CloudBlockBlob(new Uri(bloburi));
@@ -93,6 +92,7 @@ public static async Task<UploadedPhotoStatus> CallCognitiveAPI(string subscripti
     }
 }
 
+// Call Emotion API
 public static async Task<Emotion[]> GetEmotionsResult(CloudBlockBlob myBlob, EmotionServiceClient emotionSC)
 {
     Emotion[] emotionsResult = null;
@@ -126,7 +126,6 @@ public class UploadedPhotoStatus
     // 驚き
     public double Suprise { get; set; }
 }
-
 
 [JsonObject("sensor")]
 public class SensorModel
